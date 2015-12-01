@@ -330,22 +330,25 @@ ASSET_MANAGER.downloadAll(function () {
         // circle = new qmcSniper(gameEngine);
         // gameEngine.addEntity(circle);
     }
-	   // circle = new qmcRunner(gameEngine);
-        // gameEngine.addEntity(circle);
-			       // circle = new qmcRunner(gameEngine);
-        // gameEngine.addEntity(circle);
+	   circle = new qmcRunner(gameEngine);
+        gameEngine.addEntity(circle);
+			       circle = new qmcRunner(gameEngine);
+        gameEngine.addEntity(circle);
 	
-	
+		       circle = new qmcStandAndAvoid(gameEngine);
+        gameEngine.addEntity(circle);
+		       circle = new qmcStandAndAvoid(gameEngine);
+        gameEngine.addEntity(circle);
 	
 	       circle = new qmcSniper(gameEngine);
         gameEngine.addEntity(circle);
 		       circle = new qmcSniper(gameEngine);
         gameEngine.addEntity(circle);
 		
-	// circle = new QMC(gameEngine);
-	// gameEngine.addEntity(circle);
-		// circle = new QMC(gameEngine);
-	// gameEngine.addEntity(circle);
+	circle = new QMC(gameEngine);
+	gameEngine.addEntity(circle);
+		circle = new QMC(gameEngine);
+	gameEngine.addEntity(circle);
 	
 	// circle = new CPM(gameEngine);
     // gameEngine.addEntity(circle);
