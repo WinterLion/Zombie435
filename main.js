@@ -330,10 +330,10 @@ ASSET_MANAGER.downloadAll(function () {
         // circle = new qmcSniper(gameEngine);
         // gameEngine.addEntity(circle);
     }
-	   circle = new qmcRunner(gameEngine);
-        gameEngine.addEntity(circle);
-			       circle = new qmcRunner(gameEngine);
-        gameEngine.addEntity(circle);
+	   // circle = new qmcRunner(gameEngine);
+        // gameEngine.addEntity(circle);
+			       // circle = new qmcRunner(gameEngine);
+        // gameEngine.addEntity(circle);
 	
 	
 	
@@ -342,15 +342,15 @@ ASSET_MANAGER.downloadAll(function () {
 		       circle = new qmcSniper(gameEngine);
         gameEngine.addEntity(circle);
 		
-	circle = new QMC(gameEngine);
-	gameEngine.addEntity(circle);
-		circle = new QMC(gameEngine);
-	gameEngine.addEntity(circle);
+	// circle = new QMC(gameEngine);
+	// gameEngine.addEntity(circle);
+		// circle = new QMC(gameEngine);
+	// gameEngine.addEntity(circle);
 	
-	circle = new CPM(gameEngine);
-    gameEngine.addEntity(circle);
-		circle = new CPM(gameEngine);
-    gameEngine.addEntity(circle);
+	// circle = new CPM(gameEngine);
+    // gameEngine.addEntity(circle);
+		// circle = new CPM(gameEngine);
+    // gameEngine.addEntity(circle);
     
     for (var i = 0; i < numZombies; i++) {
         circle = new Zombie(gameEngine);
