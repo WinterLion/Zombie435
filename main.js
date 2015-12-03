@@ -382,7 +382,6 @@ ASSET_MANAGER.downloadAll(function () {
 
     circle = new akz(gameEngine);
     gameEngine.addEntity(circle);
->>>>>>> Stashed changes
     
     for (var i = 0; i < numZombies; i++) {
         circle = new Zombie(gameEngine);
