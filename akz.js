@@ -69,7 +69,7 @@ akz.prototype.selectAction = function () {
     var x = 1000;
     var y = 1000 / 2;
     var length = 400;
-    var angle_stepsize = .01;
+    var angle_stepsize = .0075;
 
 //    go through all angles from 0 to 2 * PI radians
 
@@ -143,7 +143,7 @@ akz.prototype.selectAction = function () {
         }
     }
 
-    if ((target && this.rocks > 1 && dist <= 150) || dist <= 50) {
+    if ((target && this.rocks > 1 && dist <= 400) || dist <= 50) {
         action.target = target;
         action.throwRock = true;
     }

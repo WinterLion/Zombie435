@@ -4,14 +4,14 @@
 
 // only change code in selectAction function()
 
-function akzShooterMix(game) {
+function akzShooter(game) {
 
     this.player = 1;
     this.radius = 10;
     this.rocks = 0;
     this.kills = 0;
-    this.name = "Zombie Hunter Tony";
-    this.color = "Gray";
+    this.name = "Taz Shooter";
+    this.color = "Yellow";
     this.cooldown = 0;
     this.corners = [{x:0, y:0}, {x:800, y:0}, {x:0, y:800}, {x:800, y:800}]
 
@@ -41,8 +41,8 @@ function akzShooterMix(game) {
     this.angle = 0;
 };
 
-akzShooterMix.prototype = new Entity();
-akzShooterMix.prototype.constructor = akz;
+akzShooter.prototype = new Entity();
+akzShooter.prototype.constructor = akz;
 
 // alter the code in this function to create your agent
 // you may check the state but do not change the state of these variables:
@@ -57,9 +57,8 @@ akzShooterMix.prototype.constructor = akz;
 // you may access a list of rocks from this.game.rocks
 // you may access a list of players from this.game.players
 
-akzShooterMix.prototype.selectAction = function () {
+akzShooter.prototype.selectAction = function () {
 
-    if (this.game.zombies >= 10) {
     var action = { direction: { x: 0, y: 0 }, throwRock: false, target: null};
     var acceleration = 1000000;
     var closest = 1000;
@@ -70,7 +69,7 @@ akzShooterMix.prototype.selectAction = function () {
     var x = 1000;
     var y = 1000 / 2;
     var length = 400;
-    var angle_stepsize = .01;
+    var angle_stepsize = .009;
 
 //    go through all angles from 0 to 2 * PI radians
 
@@ -130,10 +129,14 @@ akzShooterMix.prototype.selectAction = function () {
          this.angle = 0;
     }
 
+    var rock;
 //    console.log(action.direction);
     for (var i = 0; i < this.game.rocks.length; i++) {
         var ent = this.game.rocks[i];
-        if (!ent.removeFromWorld && !ent.thrown && this.rocks < 2 && this.collide({ x: ent.x, y: ent.y, radius: 50 })) {
+        if (!rock) {
+            rock = ent;
+        }
+        if (!ent.removeFromWorld && !ent.thrown && this.rocks < 2 && this.collide({ x: ent.x, y: ent.y, radius: 100 })) {
             var distRock = distance(this, ent);
             if ((distRock > this.radius + ent.radius) && dist >= 50) {
                 var difX = (ent.x - this.x) / distRock;
@@ -144,64 +147,41 @@ akzShooterMix.prototype.selectAction = function () {
         }
     }
 
-    if ((target && this.rocks > 1 && dist <= 500) || dist <= 50) {
-        action.target = target;
-        action.throwRock = true;
-    }
-    return action;
-}else {
 
-    var action = { direction: { x: 0, y: 0 }, throwRock: false, target: null};
-    var acceleration = 1000000;
-    var closest = 1000;
-    var targetZombie = null;
-    this.visualRadius = 500;
-
-    for (var i = 0; i < this.game.zombies.length; i++) {
-        var thisZombie = this.game.zombies[i];
-        var dist = distance(thisZombie, this);
-        if (dist < closest) { //dist < 100
-            closest = dist;
-            targetZombie = thisZombie;
+    if (!rock && this.rocks < 2 && (this.x <= 200 || this.x >= 600)) {
+        var wall;
+        if (this.x < 400) {
+            wall = {x: 0, y: this.y - 50};
+        } else {
+            wall = {x: 800, y: this.y - 50};
         }
-        if (this.collide({x: thisZombie.x, y: thisZombie.y, radius: this.visualRadius})) {
-            var difX = (thisZombie.x - this.x) / dist;
-            var difY = (thisZombie.y - this.y) / dist;
-            action.direction.x -= difX * acceleration / (dist * dist);
-            action.direction.y -= difY * acceleration / (dist * dist);
-        }
-    }
-    for (var i = 0; i < this.game.rocks.length; i++) {
-        var thisRock = this.game.rocks[i];//this.rocks < 2
-        if (!thisRock.removeFromWorld && !thisRock.thrown && this.rocks < 3 && this.collide({ x: thisRock.x, y: thisRock.y, radius: this.visualRadius })) {
-            var dist = distance(this, thisRock);
-            if (dist > this.radius + thisRock.radius) {
-                var difX = (thisRock.x - this.x) / dist;
-                var difY = (thisRock.y - this.y) / dist;
-                action.direction.x += difX * acceleration / (dist * dist);
-                action.direction.y += difY * acceleration / (dist * dist);
-            }
-        }
-    }
-    
-    for (var i = 0; i < 4; i++) {
-        if (this.collide({ x: this.corners[i].x, y: this.corners[i].y, radius: this.visualRadius })) {
-            var dist = distance(this, this.corners[i]);
-            var difX = (this.corners[i].x - this.x) / dist;
-            var difY = (this.corners[i].y - this.y) / dist;
-            action.direction.x -= difX * acceleration / (dist * dist);
-            action.direction.y -= difY * acceleration / (dist * dist);
-        }
+        var distWall = distance(this, wall);
+        var difX = (wall.x - this.x) / distWall;
+        var difY = (wall.y - this.y) / distWall;
+        action.direction.x -= difX * acceleration / (distWall * distWall);
+        action.direction.y -= difY * acceleration / (distWall * distWall);        
     }
 
+    if (!rock && this.rocks < 2 && (this.y <= 200 || this.y >= 600)) {
+        var wall;
+        if (this.y < 400) {
+            wall = {x: this.x + 50, y: 0};
+        } else {
+            wall = {x: this.x + 50, y: 800};
+        }
+        var distWall = distance(this, wall);
+        var difX = (wall.x - this.x) / distWall;
+        var difY = (wall.y - this.y) / distWall;
+        action.direction.x -= difX * acceleration / (distWall* distWall);
+        action.direction.y -= difY * acceleration / (distWall* distWall);        
+    }
     //calculate where the zombie will be
-    if (targetZombie && !targetZombie.removeFromWorld && 0 === this.cooldown && this.rocks > 0) {   
-        action.target = this.calculateInterceptionPoint(targetZombie, targetZombie.velocity, this, this.game.rocks[0].maxSpeed);
+    if (target && !target.removeFromWorld && 0 === this.cooldown && this.rocks > 0) {   
+        action.target = this.calculateInterceptionPoint(target, target.velocity, this, this.game.rocks[0].maxSpeed);
         action.throwRock = true;
     }
     
     return action;
-}
 };
 
     /**
@@ -227,7 +207,7 @@ akzShooterMix.prototype.selectAction = function () {
      * 
      * @author Jens Seiler
      */
-    akzShooterMix.prototype.calculateInterceptionPoint = function(a, v, b, s) {
+    akzShooter.prototype.calculateInterceptionPoint = function(a, v, b, s) {
         var ox = a.x - b.x;
         var oy = a.y - b.y;
  
@@ -264,27 +244,27 @@ akzShooterMix.prototype.selectAction = function () {
 
 // do not change code beyond this point
 
-akzShooterMix.prototype.collide = function (other) {
+akzShooter.prototype.collide = function (other) {
     return distance(this, other) < this.radius + other.radius;
 };
 
-akzShooterMix.prototype.collideLeft = function () {
+akzShooter.prototype.collideLeft = function () {
     return (this.x - this.radius) < 0;
 };
 
-akzShooterMix.prototype.collideRight = function () {
+akzShooter.prototype.collideRight = function () {
     return (this.x + this.radius) > 800;
 };
 
-akzShooterMix.prototype.collideTop = function () {
+akzShooter.prototype.collideTop = function () {
     return (this.y - this.radius) < 0;
 };
 
-akzShooterMix.prototype.collideBottom = function () {
+akzShooter.prototype.collideBottom = function () {
     return (this.y + this.radius) > 800;
 };
 
-akzShooterMix.prototype.update = function () {
+akzShooter.prototype.update = function () {
     Entity.prototype.update.call(this);
     // console.log(this.velocity);
     if (this.cooldown > 0) this.cooldown -= this.game.clockTick;
@@ -372,7 +352,7 @@ akzShooterMix.prototype.update = function () {
     this.velocity.y -= (1 - friction) * this.game.clockTick * this.velocity.y;
 };
 
-akzShooterMix.prototype.draw = function (ctx) {
+akzShooter.prototype.draw = function (ctx) {
     ctx.beginPath();
     ctx.fillStyle = this.color;
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);

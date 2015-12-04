@@ -321,24 +321,26 @@ ASSET_MANAGER.downloadAll(function () {
     var ctx = canvas.getContext('2d');
 
     var numZombies = 1;
-    var numPlayers = 3;
+    var numPlayers = 6;
     var numRocks = 12;
 
     var gameEngine = new GameEngine();
     var circle;
     for (var i = 0; i < numPlayers; i++) {
-        circle = new qmcSniper(gameEngine);
+        circle = new akzGroupKillas(gameEngine);
         gameEngine.addEntity(circle);
+        // circle = new qmcRunner(gameEngine);
+        // gameEngine.addEntity(circle);
     }
 	    // circle = new qmcRunner(gameEngine);
      //     gameEngine.addEntity(circle);
-	// 		       circle = new qmcRunner(gameEngine);
- //        gameEngine.addEntity(circle);
+			     //   circle = new qmcRunner(gameEngine);
+        // gameEngine.addEntity(circle);
 	
-		       circle = new qmcStandAndAvoid(gameEngine);
-        gameEngine.addEntity(circle);
-		       circle = new qmcStandAndAvoid(gameEngine);
-        gameEngine.addEntity(circle);
+		      //  circle = new qmcStandAndAvoid(gameEngine);
+        // gameEngine.addEntity(circle);
+		      //  circle = new qmcStandAndAvoid(gameEngine);
+        // gameEngine.addEntity(circle);
 	
 	//        circle = new qmcSniper(gameEngine);
  //        gameEngine.addEntity(circle);
@@ -374,14 +376,14 @@ ASSET_MANAGER.downloadAll(function () {
     // circle = new akz(gameEngine);
     // gameEngine.addEntity(circle);
 
-    circle = new akz(gameEngine);
-    gameEngine.addEntity(circle);
+    // circle = new akzShooterMix(gameEngine);
+    // gameEngine.addEntity(circle);
 
-    circle = new akz(gameEngine);
-    gameEngine.addEntity(circle);
+    // circle = new QMC(gameEngine);
+    // gameEngine.addEntity(circle);
 
-    circle = new akz(gameEngine);
-    gameEngine.addEntity(circle);
+    // circle = new akz(gameEngine);
+    // gameEngine.addEntity(circle);
     
     for (var i = 0; i < numZombies; i++) {
         circle = new Zombie(gameEngine);
