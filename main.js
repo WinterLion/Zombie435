@@ -327,7 +327,9 @@ ASSET_MANAGER.downloadAll(function () {
     var gameEngine = new GameEngine();
     var circle;
     for (var i = 0; i < numPlayers; i++) {
-        circle = new akzGroupKillas(gameEngine);
+        // circle = new akzGroupKillas(gameEngine);
+        // gameEngine.addEntity(circle);
+		circle = new qmcStandAndAvoid(gameEngine);
         gameEngine.addEntity(circle);
         // circle = new qmcRunner(gameEngine);
         // gameEngine.addEntity(circle);

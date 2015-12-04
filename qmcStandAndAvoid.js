@@ -68,21 +68,28 @@ qmcStandAndAvoid.prototype.selectAction = function () {
 
 	if (!nearZombie) {
 		//console.log("not near zombie");
-		for (var i = 0; i < 4; i++) {
-			if (this.collide({ x: this.corners[i].x, y: this.corners[i].y, radius: this.cornerRadius })) {
-				var dist = distance(this, this.corners[i]);
-				var difX = (this.corners[i].x - this.x) / dist;
-				var difY = (this.corners[i].y - this.y) / dist;
-				action.direction.x -= difX * acceleration / (dist * dist);
-				action.direction.y -= difY * acceleration / (dist * dist);
-			}
-		}
-	
-
-	
+		// for (var i = 0; i < 4; i++) {
+			// if (this.collide({ x: this.corners[i].x, y: this.corners[i].y, radius: this.cornerRadius })) {
+				// var dist = distance(this, this.corners[i]);
+				// var difX = (this.corners[i].x - this.x) / dist;
+				// var difY = (this.corners[i].y - this.y) / dist;
+				// action.direction.x -= difX * acceleration / (dist * dist);
+				// action.direction.y -= difY * acceleration / (dist * dist);
+			// }
+		// }
+		
+		//test for rocks
+		// console.log("rock length: " + this.game.rocks.length);
+		// var rockCount = 0;
+		// for (var i = 0; i < this.game.rocks.length; i++) {
+			// if (!this.game.rocks[i].removeFromWorld) rockCount++;
+		// }		
+		// console.log("rocks in world: " + rockCount);
+		// console.log(this.game.rocks.length);
+		//!thisRock.thrown &&
 		for (var i = 0; i < this.game.rocks.length; i++) {
 			var thisRock = this.game.rocks[i];//this.rocks < 2
-			if (!thisRock.removeFromWorld && !thisRock.thrown && this.rocks < 3 && this.collide({ x: thisRock.x, y: thisRock.y, radius: this.visualRadius })) {
+			if (!thisRock.removeFromWorld &&  this.rocks < 3 && this.collide({ x: thisRock.x, y: thisRock.y, radius: this.visualRadius })) {
 				var dist = distance(this, thisRock);
 				if (dist > this.radius + thisRock.radius) {
 					var difX = (thisRock.x - this.x) / dist;
@@ -261,16 +268,21 @@ qmcStandAndAvoid.prototype.update = function () {
         this.cooldown = 1;
         this.rocks--;
         var target = this.action.target;
-        var dir = direction(target, this);
-
-        var rock = new Rock(this.game);
-        rock.x = this.x + dir.x * (this.radius + rock.radius + 20);
-        rock.y = this.y + dir.y * (this.radius + rock.radius + 20);
-        rock.velocity.x = dir.x * rock.maxSpeed;
-        rock.velocity.y = dir.y * rock.maxSpeed;
-        rock.thrown = true;
-        rock.thrower = this;
-        this.game.addEntity(rock);
+		var dir = null;
+		if (target != null) {
+			dir = direction(target, this);
+		}
+        
+		if (dir != null) {
+			var rock = new Rock(this.game);
+			rock.x = this.x + dir.x * (this.radius + rock.radius + 20);
+			rock.y = this.y + dir.y * (this.radius + rock.radius + 20);
+			rock.velocity.x = dir.x * rock.maxSpeed;
+			rock.velocity.y = dir.y * rock.maxSpeed;
+			rock.thrown = true;
+			rock.thrower = this;
+			this.game.addEntity(rock);
+		}
     }
 
     this.velocity.x -= (1 - friction) * this.game.clockTick * this.velocity.x;
